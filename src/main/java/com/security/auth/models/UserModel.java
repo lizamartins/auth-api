@@ -21,8 +21,13 @@ public class UserModel implements UserDetails, Serializable {
     private long id;
     private String username;
     private String password;
-
     private UserRole role;
+
+    public UserModel(String username, String password, UserRole role) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
