@@ -1,6 +1,7 @@
 package com.security.auth.services;
 
 import com.security.auth.dtos.RegisterRecordDTO;
+import com.security.auth.exceptions.UserAlreadyExistsException;
 import com.security.auth.models.UserModel;
 import com.security.auth.repositories.UserRepository;
 import lombok.AllArgsConstructor;
@@ -21,7 +22,7 @@ public class UserService {
 
     public void register(RegisterRecordDTO registerDTO) {
         if (this.userRepository.findByUsername(registerDTO.username()) != null)
-            throw new UsernameNotFoundException("user not found");
+            throw new UserAlreadyExistsException();
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(registerDTO.password());
         UserModel newUser = new UserModel(registerDTO.username(), encryptedPassword, registerDTO.role());
