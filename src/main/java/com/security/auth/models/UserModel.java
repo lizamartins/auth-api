@@ -1,6 +1,9 @@
 package com.security.auth.models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,12 +16,16 @@ import static com.security.auth.models.UserRole.ADMIN;
 
 @Entity
 @Table(name="users")
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class UserModel implements UserDetails, Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String username;
     private String password;
     private UserRole role;
