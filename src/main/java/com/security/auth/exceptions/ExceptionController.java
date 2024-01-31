@@ -8,10 +8,13 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @RestControllerAdvice
 public class ExceptionController extends ResponseEntityExceptionHandler {
-
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<String> handle(UserAlreadyExistsException exception) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body("User already exists");
     }
 
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<String> handle(UserNotFoundException exception) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body("Unregistered user");
+    }
 }
