@@ -4,6 +4,7 @@ import com.security.auth.dtos.LoginRecordDTO;
 import com.security.auth.dtos.RegisterRecordDTO;
 import com.security.auth.exceptions.UserAlreadyExistsException;
 import com.security.auth.exceptions.UserNotFoundException;
+import com.security.auth.infra.TokenService;
 import com.security.auth.models.UserModel;
 import com.security.auth.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +25,18 @@ public class UserService implements UserDetailsService {
     @Lazy
     AuthenticationManager authenticationManager;
 
-    public void login(LoginRecordDTO loginDTO) {
+    @Autowired
+    TokenService tokenService;
+
+    public String login(LoginRecordDTO loginDTO) {
         if (this.userRepository.findByUsername(loginDTO.username()) == null)
             throw new UserNotFoundException();
 
         var usernamePassword = new UsernamePasswordAuthenticationToken(loginDTO.username(), loginDTO.password());
         var auth = this.authenticationManager.authenticate(usernamePassword);
+
+        var token = tokenService.generateToken((UserModel) auth.getPrincipal());
+        return token;
     }
 
     public void register(RegisterRecordDTO registerDTO) {
