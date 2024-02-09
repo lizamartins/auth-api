@@ -26,12 +26,12 @@ public class UserModel implements UserDetails, Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String username;
+    private String login;
     private String password;
     private UserRole role;
 
-    public UserModel(String username, String password, UserRole role) {
-        this.username = username;
+    public UserModel(String login, String password, UserRole role) {
+        this.login = login;
         this.password = password;
         this.role = role;
     }
@@ -43,13 +43,8 @@ public class UserModel implements UserDetails, Serializable {
     }
 
     @Override
-    public String getPassword() {
-        return null;
-    }
-
-    @Override
     public String getUsername() {
-        return username;
+        return login;
     }
 
     @Override

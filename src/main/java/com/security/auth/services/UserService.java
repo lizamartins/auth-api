@@ -29,7 +29,7 @@ public class UserService implements UserDetailsService {
     TokenService tokenService;
 
     public String login(LoginRecordDTO loginDTO) {
-        if (this.userRepository.findByUsername(loginDTO.username()) == null)
+        if (this.userRepository.findByLogin(loginDTO.username()) == null)
             throw new UserNotFoundException();
 
         var usernamePassword = new UsernamePasswordAuthenticationToken(loginDTO.username(), loginDTO.password());
@@ -40,7 +40,7 @@ public class UserService implements UserDetailsService {
     }
 
     public void register(RegisterRecordDTO registerDTO) {
-        if (this.userRepository.findByUsername(registerDTO.username()) != null)
+        if (this.userRepository.findByLogin(registerDTO.username()) != null)
             throw new UserAlreadyExistsException();
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(registerDTO.password());
@@ -48,7 +48,7 @@ public class UserService implements UserDetailsService {
         userRepository.save(newUser);
     }
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username);
+    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+        return userRepository.findByLogin(login);
     }
 }
